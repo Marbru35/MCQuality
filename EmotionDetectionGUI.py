@@ -5,79 +5,94 @@ from deepface import DeepFace
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-def upload_and_analyze():
-    # Datei hochladen
-    file_path = filedialog.askopenfilename(filetypes=[("Image Files", "*.jpg *.jpeg *.png")])
-    if not file_path:
-        lbl_result.config(text="Keine Datei ausgewählt.", fg="red")
-        return
+def start_gui():
+    def upload_and_analyze():
+        file_path = filedialog.askopenfilename(filetypes=[("Image Files", "*.jpg *.jpeg *.png")])
+        if not file_path:
+            lbl_result.config(text="Keine Datei ausgewählt.", fg="red")
+            return
 
-    try:
-        # Emotionen analysieren & extrahieren
-        analysis = DeepFace.analyze(img_path=file_path, actions=['emotion'])
-        emotions = analysis[0]['emotion']
-        dominant_emotion = analysis[0]['dominant_emotion']
+        try:
+            analysis = DeepFace.analyze(img_path=file_path, actions=['emotion'])
+            emotions = analysis[0]['emotion']
+            dominant_emotion = analysis[0]['dominant_emotion']
 
-        # Ergebnisse in der GUI anzeigen
-        lbl_result.config(text=f"Dominante Emotion: {dominant_emotion}", fg="green")
+            lbl_result.config(text=f"Dominante Emotion: {dominant_emotion}", fg="green")
 
-        # Bild im GUI anzeigen
-        img = Image.open(file_path)
-        img_tk = ImageTk.PhotoImage(img)
-        lbl_image.config(image=img_tk)
-        lbl_image.image = img_tk
+            # Bild öffnen und skalieren
+            img = Image.open(file_path)
 
-        # Balkendiagramm in der GUI anzeigen
-        figure = plt.Figure(figsize=(5, 4), dpi=100)
-        ax = figure.add_subplot(111)
-        ax.bar(emotions.keys(), emotions.values(), color='skyblue')
-        ax.set_ylim(0, 100)  # Y-Achse auf 0 bis 100 begrenzen
-        ax.set_xlabel("Emotionen", fontsize=10)
-        ax.set_ylabel("Wahrscheinlichkeit (%)", fontsize=10)
-        ax.tick_params(axis='x', rotation=45, labelsize=8)
-        ax.tick_params(axis='y', labelsize=8)
+            # Maximale Bildgröße definieren
+            max_size = (450, 450)  # Maximale Größe für das Bild
 
-        # Matplotlib-Canvas
-        for widget in frame_chart.winfo_children():  # Vorherige Charts entfernen
-            widget.destroy()
-        canvas = FigureCanvasTkAgg(figure, master=frame_chart)
-        canvas.draw()
-        canvas.get_tk_widget().pack(fill=BOTH, expand=True, pady=0)
+            # Bild skalieren, um in das Fenster zu passen
+            img.thumbnail(max_size)
 
-    except Exception as e:
-        lbl_result.config(text=f"Fehler bei der Analyse: {e}", fg="red")
+            img_tk = ImageTk.PhotoImage(img)
+            lbl_image.config(image=img_tk)
+            lbl_image.image = img_tk
 
-# GUI erstellen
-root = Tk()
-root.title("Emotionserkennung")
-root.state('zoomed')  # Vollbildmodus 
-root.configure(bg="white") # Hintergrundfarbe
+            # Erstelle das Balkendiagramm
+            figure = plt.Figure(figsize=(6, 5), dpi=100)  # Größere Höhe für die Darstellung
+            ax = figure.add_subplot(111)
+            ax.bar(emotions.keys(), emotions.values(), color='skyblue')
+            ax.set_ylim(0, 100)
+            ax.set_xlabel("Emotionen", fontsize=12)
+            ax.set_ylabel("Wahrscheinlichkeit (%)", fontsize=12)
+            ax.tick_params(axis='x', rotation=45, labelsize=10)
+            ax.tick_params(axis='y', labelsize=10)
 
-# Überschrift
-lbl_title = Label(root, text="Bild hochladen und analysieren", font=("Arial", 16))
-lbl_title.pack(pady=10)
+            # Verhindert das Abschneiden von Achsen und Labels
+            plt.tight_layout()
 
-# Hauptbereich: Bild und Diagramm nebeneinander
-frame_main = Frame(root)
-frame_main.pack(fill=BOTH, expand=True, padx=10, pady=10)
+            for widget in frame_chart.winfo_children():
+                widget.destroy()
+            canvas = FigureCanvasTkAgg(figure, master=frame_chart)
+            canvas.draw()
+            canvas.get_tk_widget().pack(fill=BOTH, expand=True, pady=0)
 
-# Bild
-frame_image = Frame(frame_main, width=450, height=450)
-frame_image.pack(side=LEFT, fill=BOTH, expand=True, padx=10, pady=10)
-lbl_image = Label(frame_image)
-lbl_image.pack()
+        except Exception as e:
+            lbl_result.config(text=f"Fehler bei der Analyse: {e}", fg="red")
 
-# Balkendiagramm
-frame_chart = Frame(frame_main, width=450, height=450)
-frame_chart.pack(side=RIGHT, fill=BOTH, expand=True, padx=10, pady=10)
+    def exit_to_main_gui():
+        # Schließt die aktuelle GUI und gibt die Kontrolle an die Haupt-GUI zurück
+        root.quit()
+        root.destroy()  # Sub-GUI Fenster schließen
 
-# Ergebnis-Label
-lbl_result = Label(root, text="", font=("Arial", 12))
-lbl_result.pack(pady=5)
+    # Erstelle die Haupt-GUI für die Emotionserkennung
+    root = Tk()
+    root.title("Emotionserkennung")
+    root.state('zoomed')
+    root.configure(bg="white")
 
-# Button
-btn_upload = Button(root, text="Bild hochladen", command=upload_and_analyze, width=20, height=2, font=("Arial", 12))
-btn_upload.pack(pady=5)
+    lbl_title = Label(root, text="Bild hochladen und analysieren", font=("Arial", 16))
+    lbl_title.pack(pady=10)
 
-# Hauptloop starten
-root.mainloop()
+    frame_main = Frame(root)
+    frame_main.pack(fill=BOTH, expand=True, padx=10, pady=10)
+
+    frame_image = Frame(frame_main, width=450, height=450)
+    frame_image.pack(side=LEFT, fill=BOTH, expand=True, padx=10, pady=10)
+    lbl_image = Label(frame_image)
+    lbl_image.pack()
+
+    frame_chart = Frame(frame_main, width=450, height=450)
+    frame_chart.pack(side=RIGHT, fill=BOTH, expand=True, padx=10, pady=10)
+
+    lbl_result = Label(root, text="", font=("Arial", 12))
+    lbl_result.pack(pady=5)
+
+    btn_upload = Button(root, text="Bild hochladen", command=upload_and_analyze, width=20, height=2, font=("Arial", 12))
+    btn_upload.pack(pady=5)
+
+    # Exit-Button unten links platzieren
+    frame_exit = Frame(root, bg="white")  # Separates Frame für Exit-Button
+    frame_exit.pack(side=BOTTOM, fill=X, padx=10, pady=10)
+
+    btn_exit = Button(frame_exit, text="Exit", command=exit_to_main_gui, width=10, height=2, font=("Arial", 12), bg="red", fg="white")
+    btn_exit.pack(anchor="w")  # Button linksbündig ausrichten
+
+    root.mainloop()
+
+if __name__ == "__main__":
+    start_gui()
