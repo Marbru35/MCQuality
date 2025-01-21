@@ -6,7 +6,17 @@ import threading
 
 # Verzeichnis der Skripte
 current_dir = os.path.dirname(os.path.abspath(__file__))
-python_path = os.path.join(current_dir, ".venv", "Scripts", "python.exe")  # Pfad zur virtuellen Umgebung
+
+# Dynamisches Auffinden des Python-Interpreters in der virtuellen Umgebung
+def find_python_interpreter():
+    possible_envs = [name for name in os.listdir(current_dir) if os.path.isdir(os.path.join(current_dir, name))]
+    for env in possible_envs:
+        python_path = os.path.join(current_dir, env, "Scripts", "python.exe")  # Für Windows
+        if os.path.exists(python_path):
+            return python_path
+    return "python"  # Fallback auf globalen Python-Interpreter
+
+python_path = find_python_interpreter()
 
 # Hauptfenster erstellen
 frame = Tk()
