@@ -1,5 +1,8 @@
 from tkinter import *
 from tkinter.ttk import Separator
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
+import pandas as pd
 import subprocess
 import os
 import threading
@@ -7,16 +10,77 @@ import threading
 # Verzeichnis der Skripte
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
+# CSV-Datei leeren
+def clear_csv_file():
+    with open("emotions_results.csv", "w", newline="") as csvfile:
+        csvfile.write("emotion\n")
+
 # Dynamisches Auffinden des Python-Interpreters in der virtuellen Umgebung
 def find_python_interpreter():
     possible_envs = [name for name in os.listdir(current_dir) if os.path.isdir(os.path.join(current_dir, name))]
     for env in possible_envs:
-        python_path = os.path.join(current_dir, env, "Scripts", "python.exe")  # Für Windows
+        python_path = os.path.join(current_dir, env, "Scripts", "python.exe")
         if os.path.exists(python_path):
             return python_path
     return "python"  # Fallback auf globalen Python-Interpreter
 
 python_path = find_python_interpreter()
+
+# Funktion zur Erstellung eines Balkendiagramms
+def create_bar_chart(frame, emotion_counts):
+    fig_bar, ax_bar = plt.subplots(figsize=(5, 4))
+    emotion_counts.plot(kind='bar', color='skyblue', ax=ax_bar)
+    ax_bar.set_title("Percentage of Detected Emotions (Bar Chart)", fontsize=12)
+    ax_bar.set_xlabel("Emotions", fontsize=10)
+    ax_bar.set_ylabel("Percentage (%)", fontsize=10)
+    ax_bar.set_xticklabels(ax_bar.get_xticklabels(), rotation=45)
+    ax_bar.grid(axis='y', linestyle='--', alpha=0.7)
+
+    for i, value in enumerate(emotion_counts):
+        ax_bar.text(i, value + 1, f"{value:.1f}%", ha='center', fontsize=8)
+
+    canvas_bar = FigureCanvasTkAgg(fig_bar, master=frame)
+    canvas_bar.draw()
+    canvas_bar.get_tk_widget().pack(fill=BOTH, expand=True)
+
+# Funktion zur Erstellung eines Kuchendiagramms
+def create_pie_chart(frame, emotion_counts):
+    fig_pie, ax_pie = plt.subplots(figsize=(5, 4))
+    emotion_counts.plot(kind='pie', autopct='%1.1f%%', startangle=90, colors=['skyblue', 'orange', 'green', 'red', 'purple', 'yellow'], ax=ax_pie)
+    ax_pie.set_title("Percentage of Detected Emotions (Pie Chart)", fontsize=14)
+    ax_pie.set_ylabel("")  # Entfernt das Standard-Y-Label
+
+    canvas_pie = FigureCanvasTkAgg(fig_pie, master=frame)
+    canvas_pie.draw()
+    canvas_pie.get_tk_widget().pack(fill=BOTH, expand=True)
+
+# Funktion zur Darstellung der Diagramme
+def show_emotion_analysis():
+    try:
+        # CSV-Datei laden
+        df = pd.read_csv("emotions_results.csv")
+
+        # Häufigkeit der Emotionen zählen und in Prozentsätze umwandeln
+        emotion_counts = df['emotion'].value_counts(normalize=True) * 100  # Prozentuale Häufigkeit
+
+        # Zuvor vorhandene Widgets im Grafik-Bereich entfernen
+        for widget in graphics_area.winfo_children():
+            widget.destroy()
+
+        # Linker Bereich: Balkendiagramm
+        left_frame = Frame(graphics_area, bg="white")
+        left_frame.pack(side=LEFT, fill=BOTH, expand=True, padx=5, pady=5)
+        create_bar_chart(left_frame, emotion_counts)
+
+        # Rechter Bereich: Kuchendiagramm
+        right_frame = Frame(graphics_area, bg="white")
+        right_frame.pack(side=RIGHT, fill=BOTH, expand=True, padx=5, pady=5)
+        create_pie_chart(right_frame, emotion_counts)
+
+    except FileNotFoundError:
+        # Nachricht anzeigen, wenn keine Datei gefunden wird
+        error_label = Label(graphics_area, text="No data available. Please run the detection first.", fg="red", font=("Helvetica", 12))
+        error_label.pack(fill=BOTH, expand=True)
 
 # Hauptfenster erstellen
 frame = Tk()
@@ -24,6 +88,9 @@ frame = Tk()
 def open_sub_gui(script_name, executing_text):
     def run_sub_gui():
         try:
+            # CSV-Datei leeren, bevor das Sub-GUI gestartet wird
+            clear_csv_file()
+
             # Setze den Status-Text und aktualisiere die GUI
             clicked.config(text=executing_text, fg="green")
             frame.update()  # GUI sofort aktualisieren
@@ -35,13 +102,14 @@ def open_sub_gui(script_name, executing_text):
                 # Sub-GUI starten
                 process = subprocess.Popen([python_path, script_name], cwd=current_dir)
 
-                # Warten, bis das Sub-GUI-Skript beendet ist
+                # Warten, bis das Sub-GUI beendet ist
                 process.wait()
 
                 # Wenn Sub-GUI beendet wird, Hauptfenster wieder sichtbar machen
                 frame.deiconify()  # Haupt-GUI wieder anzeigen
                 clicked.config(text="Start the emotion recognition", fg="firebrick")
                 frame.state('zoomed')  # Maximiert das Fenster
+                show_emotion_analysis()  # Emotionen nach Beendigung analysieren
 
             # 1 Sekunde warten, bevor das Hauptfenster ausgeblendet wird
             frame.after(1000, hide_main_gui)  # 1000ms = 1 Sekunde
@@ -65,6 +133,8 @@ def button_action():
         open_sub_gui("EmotionDetectionRealTime.py", "Executing Real-Time emotion recognition...")
 
 def exit_to_main_gui():
+    # CSV-Datei leeren, bevor das Hauptfenster geschlossen wird
+    clear_csv_file()
     # Schließt die Haupt-GUI
     frame.quit()
 
@@ -74,30 +144,30 @@ frame.title("Emotion Detection - Controller")
 frame.state('zoomed')  # Maximiert das Fenster auf die Bildschirmgröße
 
 # Responsivität aktivieren
-frame.grid_columnconfigure(0, weight=1)  # Platz links
-frame.grid_columnconfigure(1, weight=1)  # Dropdown-Button
-frame.grid_columnconfigure(2, weight=1)  # Start-Button
-frame.grid_columnconfigure(3, weight=1)  # Platz rechts
-frame.grid_rowconfigure(0, weight=0)     # Zeile für Buttons
-frame.grid_rowconfigure(1, weight=0)     # Zeile für Clicked-Label
-frame.grid_rowconfigure(2, weight=0)     # Zeile für Trennlinie
-frame.grid_rowconfigure(3, weight=3)     # Zeile für Auswertungsgrafiken (größerer Platz)
-frame.grid_rowconfigure(4, weight=0)     # Zeile für Exit und Hinweise
+frame.grid_columnconfigure(0, weight=1)
+frame.grid_columnconfigure(1, weight=1)
+frame.grid_columnconfigure(2, weight=1)
+frame.grid_columnconfigure(3, weight=1)
+frame.grid_rowconfigure(0, weight=0)
+frame.grid_rowconfigure(1, weight=0)
+frame.grid_rowconfigure(2, weight=0)
+frame.grid_rowconfigure(3, weight=3)
+frame.grid_rowconfigure(4, weight=0)
 
 # Modus-Auswahl (Dropdown)
-mode = StringVar(value="Modus")  # Standardwert
+mode = StringVar(value="Modus")
 options = ["Static", "Real-Time"]
 
 option_menu = OptionMenu(frame, mode, *options)
 option_menu.config(
     width=12,
-    font=("Arial", 12, "bold"),  # Schriftart fett
-    bg="lightblue",  # Hintergrundfarbe des Dropdowns
-    fg="black",       # Schriftfarbe des Dropdowns
-    activebackground="blue",  # Hintergrundfarbe beim Hover
-    activeforeground="white"  # Schriftfarbe beim Hover
+    font=("Arial", 12, "bold"),
+    bg="lightblue",
+    fg="black",
+    activebackground="blue",
+    activeforeground="white"
 )
-option_menu.grid(row=0, column=1, padx=10, pady=10, sticky="ew")  # Zentriert über Spaltengewicht
+option_menu.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
 
 # Start-Button
 start = Button(
@@ -108,31 +178,34 @@ start = Button(
     height=2,
     bg="lime",
     fg="darkgreen",
-    font=("Arial", 12, "bold"),  # Statische Größe
+    font=("Arial", 12, "bold"),
     relief="raised",
     bd=5,
 )
-start.grid(row=0, column=2, padx=10, pady=10, sticky="ew")  # Rechts daneben, ebenfalls zentriert
+start.grid(row=0, column=2, padx=10, pady=10, sticky="ew")
 
-# Clicked-Label (unterhalb der Buttons)
+# Clicked-Label
 clicked = Label(
     frame,
     text="Start the emotion recognition",
-    font=("Arial", 12),  # Schriftgröße
-    fg="firebrick"  # Schriftfarbe
+    font=("Arial", 12),
+    fg="firebrick"
 )
-clicked.grid(row=1, column=0, columnspan=4, pady=5, sticky="n")  # Zentriert unter den Buttons
+clicked.grid(row=1, column=0, columnspan=4, pady=5, sticky="n")
 
-# Trennlinie weiter nach oben verschieben
+# Trennlinie
 separator = Separator(frame, orient="horizontal")
-separator.grid(row=2, column=0, columnspan=4, sticky="ew", pady=5)  # Trennlinie über gesamte Breite (weniger Padding)
+separator.grid(row=2, column=0, columnspan=4, sticky="ew", pady=5)
 
 # Platz für Auswertungsgrafiken
-graphics_label = Label(frame, text="Hier werden Auswertungsgrafiken angezeigt", font=("Helvetica", 10), fg="gray")
-graphics_label.grid(row=3, column=0, columnspan=4, pady=20, sticky="nsew")  # Mittig und flexibel
+graphics_area = Frame(frame, bg="white")
+graphics_area.grid(row=3, column=0, columnspan=4, pady=20, sticky="nsew")
 
-# Exit-Button unten links (größerer Exit-Button)
+placeholder_label = Label(graphics_area, text="Hier werden Auswertungsgrafiken angezeigt", font=("Helvetica", 10), fg="gray")
+placeholder_label.pack(fill=BOTH, expand=True)
+
+# Exit-Button
 exit = Button(frame, text="Exit", command=exit_to_main_gui, bg="red", fg="white", width=15, height=3)
-exit.grid(row=4, column=0, sticky="sw", padx=10, pady=20)  # Unten links
+exit.grid(row=4, column=0, sticky="sw", padx=10, pady=20)
 
 frame.mainloop()
