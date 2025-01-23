@@ -4,6 +4,7 @@ import cv2
 from PIL import Image, ImageTk
 from deepface import DeepFace
 import csv
+import time
 
 class RealTimeDetection:
     def __init__(self):
@@ -11,7 +12,7 @@ class RealTimeDetection:
         self.cap = None
         self.root = None
         self.video_label = None
-        self.emotions_data = []  # Speicher für Emotionen
+        self.emotions_data = []  # Speicher für Emotionen (inkl. dominanter Emotion und Intensitäten)
 
     def start_realtime_detection(self):
         cascade_path = cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
@@ -27,6 +28,8 @@ class RealTimeDetection:
             gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             faces = face_cascade.detectMultiScale(gray_frame, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
+            current_time = time.strftime('%H:%M:%S')  # Zeitstempel im Format HH:MM:SS
+
             for (x, y, w, h) in faces:
                 face_frame = frame[y:y+h, x:x+w]
 
@@ -34,18 +37,27 @@ class RealTimeDetection:
                     continue
 
                 try:
+                    # DeepFace-Analyse durchführen
                     analysis = DeepFace.analyze(face_frame, actions=['emotion'], enforce_detection=False)
 
                     if isinstance(analysis, list):
                         analysis = analysis[0]
 
-                    # Dominante Emotion speichern
+                    # Emotionen extrahieren (alle Emotionen + dominante Emotion)
+                    emotions = analysis['emotion']
                     dominant_emotion = analysis['dominant_emotion']
-                    self.emotions_data.append({'emotion': dominant_emotion})
 
-                    # Rechteck und Emotion anzeigen
+                    # Speichern der Emotionen, Intensitäten und dominanten Emotion in emotions_data
+                    emotions_record = {
+                        "time": current_time,
+                        "dominant_emotion": dominant_emotion,
+                        **emotions  # Alle Emotionen und ihre Intensitäten als Schlüssel hinzufügen
+                    }
+                    self.emotions_data.append(emotions_record)
+
+                    # Rechteck und dominante Emotion anzeigen
                     cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
-                    cv2.putText(frame, f"Emotion: {dominant_emotion}", (x, y - 10),
+                    cv2.putText(frame, f"{dominant_emotion}", (x, y - 10),
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
                 except Exception as e:
                     print(f"Fehler bei der Analyse: {e}")
@@ -66,8 +78,11 @@ class RealTimeDetection:
             print("No emotions data collected.")
             return
 
+        # Kopfzeile für die CSV-Datei (enthält alle Emotionen + Zeit + dominante Emotion)
+        fieldnames = ["time", "dominant_emotion", "angry", "disgust", "fear", "happy", "sad", "surprise", "neutral"]
+
         with open("emotions_results.csv", "w", newline="") as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=["emotion"])
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(self.emotions_data)
 
@@ -113,8 +128,8 @@ class RealTimeDetection:
         control_frame.pack(side=RIGHT, fill=Y)
 
         # Exit-Button
-        btn_exit = Button(control_frame, text="Exit", font=("Arial", 12), bg="red", fg="white", command=self.exit_to_main_gui)
-        btn_exit.pack(pady=20, padx=20, fill=X)
+        btn_exit = Button(control_frame, text="Exit", font=("Arial", 10), bg="red", fg="white", command=self.exit_to_main_gui)
+        btn_exit.pack(pady=15, padx=20, fill=X)
 
         self.root.mainloop()
 
