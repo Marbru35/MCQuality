@@ -77,13 +77,36 @@ def show_emotion_analysis():
         right_frame.pack(side=RIGHT, fill=BOTH, expand=True, padx=5, pady=5)
         create_pie_chart(right_frame, emotion_counts)
 
+        # Sobald die Diagramme erfolgreich erstellt wurden, die Nachricht entfernen
+        if resize_message_label.winfo_ismapped():
+            resize_message_label.grid_forget()
+
     except FileNotFoundError:
         # Nachricht anzeigen, wenn keine Datei gefunden wird
         error_label = Label(graphics_area, text="No data available. Please run the detection first.", fg="red", font=("Helvetica", 12))
         error_label.pack(fill=BOTH, expand=True)
 
+# Funktion zur Überprüfung der Fenstergröße
+def check_window_size():
+    window_width = frame.winfo_width()
+
+    # Wenn das Fenster zu klein ist, die Nachricht anzeigen
+    if window_width < 1000:
+        resize_message_label.config(text="Widen the frame to see the results.")
+        if not resize_message_label.winfo_ismapped():
+            resize_message_label.grid(row=3, column=0, columnspan=4, pady=10, sticky="nsew")
+    else:
+        # Wenn das Fenster groß genug ist, entfernen wir die Nachricht
+        if resize_message_label.winfo_ismapped():
+            resize_message_label.grid_forget()
+
+    # Wiederhole die Überprüfung alle 100 ms
+    frame.after(100, check_window_size)
+
 # Hauptfenster erstellen
 frame = Tk()
+
+
 
 def open_sub_gui(script_name, executing_text):
     def run_sub_gui():
@@ -143,6 +166,12 @@ frame.title("Emotion Detection - Controller")
 # Maximieren des Fensters
 frame.state('zoomed')  # Maximiert das Fenster auf die Bildschirmgröße
 
+# Mindestgröße des Fensters setzen
+frame.minsize(600, 400)
+
+# Maximale Größe des Fensters setzen
+frame.maxsize(1600, 1200)
+
 # Responsivität aktivieren
 frame.grid_columnconfigure(0, weight=1)
 frame.grid_columnconfigure(1, weight=1)
@@ -151,7 +180,7 @@ frame.grid_columnconfigure(3, weight=1)
 frame.grid_rowconfigure(0, weight=0)
 frame.grid_rowconfigure(1, weight=0)
 frame.grid_rowconfigure(2, weight=0)
-frame.grid_rowconfigure(3, weight=3)
+frame.grid_rowconfigure(3, weight=4)
 frame.grid_rowconfigure(4, weight=0)
 
 # Modus-Auswahl (Dropdown)
@@ -204,8 +233,17 @@ graphics_area.grid(row=3, column=0, columnspan=4, pady=20, sticky="nsew")
 placeholder_label = Label(graphics_area, text="Hier werden Auswertungsgrafiken angezeigt", font=("Helvetica", 10), fg="gray")
 placeholder_label.pack(fill=BOTH, expand=True)
 
+# Nachricht, die angezeigt wird, wenn das Fenster zu klein ist
+resize_message_label = Label(frame, text="Widen the frame to see the results.", fg="red", font=("Arial", 12))
+resize_message_label.grid(row=3, column=0, columnspan=4, pady=10, sticky="nsew")
+resize_message_label.grid_forget()  # Verstecke die Nachricht zu Beginn
+check_window_size()
+
 # Exit-Button
-exit = Button(frame, text="Exit", command=exit_to_main_gui, bg="red", fg="white", width=15, height=3)
+exit = Button(frame, text="Exit", command=exit_to_main_gui, bg="red", fg="white", width=10, height=2)
 exit.grid(row=4, column=0, sticky="sw", padx=10, pady=20)
+
+# Überprüfe die Fenstergröße regelmäßig
+frame.after(1000, check_window_size)  # Überprüfe alle 1 Sekunde die Fenstergröße
 
 frame.mainloop()

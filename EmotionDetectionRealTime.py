@@ -62,16 +62,24 @@ class RealTimeDetection:
 
     def save_results_to_file(self):
         # Speichert die Emotionen in einer CSV-Datei
+        if not self.emotions_data:
+            print("No emotions data collected.")
+            return
+
         with open("emotions_results.csv", "w", newline="") as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=["emotion"])
             writer.writeheader()
             writer.writerows(self.emotions_data)
 
+        print(f"Saved {len(self.emotions_data)} emotion records.")
+
     def stop_realtime_detection(self):
         self.running = False
 
     def exit_to_main_gui(self):
+        # Stoppt die Erkennung und speichert die Ergebnisse, bevor das Fenster geschlossen wird
         self.stop_realtime_detection()
+        self.save_results_to_file()
         if self.root:
             self.root.destroy()
 
@@ -100,12 +108,11 @@ class RealTimeDetection:
         detection_thread.daemon = True
         detection_thread.start()
 
+        # Control Frame (contains only the Exit Button)
         control_frame = Frame(self.root, bg="lightgray", width=200)
         control_frame.pack(side=RIGHT, fill=Y)
 
-        btn_stop = Button(control_frame, text="Stop", font=("Arial", 12), bg="orange", fg="white", command=self.stop_realtime_detection)
-        btn_stop.pack(pady=20, padx=20, fill=X)
-
+        # Exit-Button
         btn_exit = Button(control_frame, text="Exit", font=("Arial", 12), bg="red", fg="white", command=self.exit_to_main_gui)
         btn_exit.pack(pady=20, padx=20, fill=X)
 
@@ -114,4 +121,3 @@ class RealTimeDetection:
 if __name__ == "__main__":
     detector = RealTimeDetection()
     detector.start_gui()
-    
