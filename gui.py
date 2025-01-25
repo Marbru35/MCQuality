@@ -45,7 +45,7 @@ def create_bar_chart(frame, emotion_counts):
     ax_bar.set_title("Percentage of Dominant Emotions (Bar Chart)", fontsize=10)
     ax_bar.set_xlabel("Emotions", fontsize=10)
     ax_bar.set_ylabel("Percentage (%)", fontsize=10)
-    ax_bar.set_xticklabels(ax_bar.get_xticklabels(), rotation=30, fontsize=9)
+    ax_bar.set_xticklabels(ax_bar.get_xticklabels(), rotation=0, fontsize=9)
     ax_bar.grid(axis='y', linestyle='--', alpha=0.7)
 
     for i, value in enumerate(emotion_counts):
@@ -105,6 +105,8 @@ def create_time_based_line_chart(frame, emotions_data):
 
     # Entferne die X-Ticks (Zeitstempel unwichtig)
     ax_line.set_xticks([])
+
+    ax_line.legend(title="Emotions", loc='upper left', fontsize=9)
 
     # Interaktive Funktion für das Hover-Event
     def on_hover(event):
@@ -276,14 +278,14 @@ separator = Separator(frame, orient="horizontal")
 separator.grid(row=2, column=0, columnspan=4, sticky="ew", pady=5)
 
 graphics_area = Frame(frame, bg="white")
-graphics_area.grid(row=3, column=0, columnspan=4, pady=20, sticky="nsew")
+graphics_area.grid(row=3, column=0, columnspan=4, pady=10, sticky="nsew")
 
 resize_message_label = Label(frame, text="Widen the frame to see the results.", fg="red", font=("Arial", 12))
 resize_message_label.grid(row=3, column=0, columnspan=4, pady=10, sticky="nsew")
 resize_message_label.grid_forget()
 
-exit = Button(frame, text="Exit", command=exit_to_main_gui, bg="red", fg="white", width=10, height=2)
-exit.grid(row=4, column=0, sticky="sw", padx=10, pady=20)
+exit = Button(frame, text="Exit", command=exit_to_main_gui, bg="red", fg="white", width=10, height=1)
+exit.grid(row=4, column=0, sticky="sw", padx=5, pady=5)
 
 frame.after(1000, check_window_size)
 frame.mainloop()
