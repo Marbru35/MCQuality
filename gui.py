@@ -106,28 +106,51 @@ def create_time_based_line_chart(frame, emotions_data):
     # Entferne die X-Ticks (Zeitstempel unwichtig)
     ax_line.set_xticks([])
 
-    ax_line.legend(title="Emotions", loc='upper left', fontsize=9)
+    # Erstelle die Legende
+    legend = ax_line.legend(title="Emotions", loc='upper left', fontsize=9)
+    legend_items = legend.get_lines()  # Erhalte die Legendenlinien
+    legend_mapping = {legend_line: emotion for emotion, legend_line in zip(lines.keys(), legend_items)}
+
+    # Setze die Linienbreite in der Legende
+    for legend_line in legend_items:
+        legend_line.set_linewidth(2.5)  # Dickere Linien in der Legende
 
     # Interaktive Funktion für das Hover-Event
     def on_hover(event):
-        if event.inaxes == ax_line:
-            hovered = False  # Überprüfen, ob eine Linie hervorgehoben wurde
+        hovered = False
+
+        # Prüfen, ob der Mauszeiger über einer Legende schwebt
+        for legend_line in legend_items:
+            if legend_line.contains(event)[0]:
+                hovered = True
+                emotion = legend_mapping[legend_line]
+                for emo, line in lines.items():
+                    if emo == emotion:
+                        line.set_alpha(1.0)
+                        line.set_linewidth(2)
+                    else:
+                        line.set_alpha(0.1)
+                        line.set_linewidth(1)
+                break
+
+        # Prüfen, ob der Mauszeiger über einer Linie schwebt und gerade nicht auf der Legende ist
+        if not hovered and event.inaxes == ax_line:
             for emotion, line in lines.items():
-                if line.contains(event)[0]:  # Prüfen, ob der Cursor über der Linie ist
-                    line.set_alpha(1.0)      # Linie hervorheben
-                    line.set_linewidth(2)    # Breitere Linie
+                if line.contains(event)[0]:
+                    line.set_alpha(1.0)
+                    line.set_linewidth(2)
                     hovered = True
                 else:
-                    line.set_alpha(0.1)      # Andere Linien ausblenden
-                    line.set_linewidth(1)    # Schmale Linien
+                    line.set_alpha(0.1)
+                    line.set_linewidth(1)
 
-            # Wenn keine Linie hervorgehoben wurde, alle Linien zurücksetzen
-            if not hovered:
-                for line in lines.values():
-                    line.set_alpha(0.7)      # Transparenz zurücksetzen
-                    line.set_linewidth(1)    # Linienbreite zurücksetzen
+        # Wenn keine Linie oder Legende hervorgehoben ist, alles zurücksetzen
+        if not hovered:
+            for line in lines.values():
+                line.set_alpha(0.7)
+                line.set_linewidth(1)
 
-            fig_line.canvas.draw_idle()      # Neu zeichnen
+        fig_line.canvas.draw_idle()  # Neu zeichnen
 
     # Event mit der Figure verbinden
     fig_line.canvas.mpl_connect('motion_notify_event', on_hover)
