@@ -17,17 +17,20 @@ Welcome to the MCQuality project! This repository contains the code and implemen
 ## Project Overview
 The MCQuality project explores state-of-the-art tools and frameworks for user state detection using video data, with a focus on real-time emotion recognition. After systematically reviewing existing technologies, we selected a promising tool to build a prototype that demonstrates its potential in the field of UX and satisfaction for a specific use-case.
 
-**Prototype Implementation**: Demonstration of the feasibility and potential of the selected solution.
+**Prototype Implementation**: Demonstration of the feasibility and potential of the selected solution. <br>
+**Selected Tool**:
 
 ### Key Features:
+- **Static Emotion Detection**: Allows to upload an image of a face and detect the emotions expressed in the image.
 - **Real-Time Emotion Detection**: A functional prototype that detects user emotions from video streams in real time.
-- **Distribution of Dominant Emotions**:
-- **Emotions over Time**:
+- **Distribution of Dominant Emotions**: Bar chart showing the percentage of dominant emotions detected.
+- **Emotion Intensity over Time**: Line chart showing the intensity of emotions over time.
+- **Supported Emotions**: Detects the following emotions: neutral, happy, fear, surprise, angry, sad, and disgust
 
 The code provides three Python files:
-- **gui.py**:
-- **EmotionDetectionGUI.py**:
-- **EmotionDetectionRealTime.py**:
+- **gui.py**: implements a graphical user interface (GUI) using `Tkinter`, allowing users to select between static and real-time emotion detection based on facial features, visualize the results as bar and line charts, and dynamically execute the scripts `EmotionDetectionGUI.py` and `EmotionDetectionRealTime.py`
+- **EmotionDetectionGUI.py**: 
+- **EmotionDetectionRealTime.py**: implements a real-time emotion detection system using video input
 
 ---
 
