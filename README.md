@@ -20,7 +20,7 @@ The MCQuality project explores state-of-the-art tools and frameworks for user st
 **Prototype Implementation**: Demonstration of the feasibility and potential of the selected solution. <br>
 **Selected Tool**:
 
-### Key Features:
+## Key Features:
 - **Static Emotion Detection**: Allows to upload an image of a face and detect the emotions expressed in the image.
 - **Real-Time Emotion Detection**: A functional prototype that detects user emotions from video streams in real time.
 - **Distribution of Dominant Emotions**: Bar chart showing the percentage of dominant emotions detected.
@@ -31,6 +31,10 @@ The code provides three Python files:
 - **gui.py**: implements a graphical user interface (GUI) using `Tkinter`, allowing users to select between static and real-time emotion detection based on facial features, visualize the results as bar and line charts, and dynamically execute the scripts `EmotionDetectionGUI.py` and `EmotionDetectionRealTime.py`
 - **EmotionDetectionGUI.py**: 
 - **EmotionDetectionRealTime.py**: implements a real-time emotion detection system using video input
+
+---
+
+## How the Detection Works
 
 ---
 
