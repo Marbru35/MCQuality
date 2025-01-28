@@ -15,7 +15,9 @@ Welcome to the MCQuality project! This repository contains the code and implemen
 1. [Project Overview](#project-overview)
 2. [Getting Started](#getting-started)
 3. [Environment Setup](#environment-setup)
-4. [Project Contributors](#project-contributors)
+4. [Project Contributors](#contributors)
+5. [Contribution to Project](#contribution)
+6. [License](#license)
 
 ---
 
@@ -56,6 +58,18 @@ To run the prototype, follow these steps:
 This project is part of a university group project created for the course Software Quality (SQ) by the following contributors: 
 - Carlotta May
 - Marlon Spiess
+  
+---
+
+## Contribution
+
+---
+
+## License
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+This project is licensed under the [MIT License](LICENSE). You are free to use, modify, and distribute this software under the conditions stated in the LICENSE file.
+
 ---
 
 Have fun exploring our prototype! 
