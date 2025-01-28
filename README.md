@@ -1,4 +1,9 @@
-# MCQuality
+# MC Quality
+
+<div align="center">
+  <img src="icons/mcquality.PNG" alt="MC Quality Logo" width="200">
+</div>
+<br>
 
 **Automated User State Detection Project**
 
