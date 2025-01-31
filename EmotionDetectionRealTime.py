@@ -25,6 +25,8 @@ class RealTimeDetection:
                 print("Fehler beim Abrufen des Kamerabildes.")
                 break
 
+            frame = cv2.flip(frame, 1)  # Bild horizontal spiegeln, um die gespiegelte Ansicht zu korrigieren
+            
             gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             faces = face_cascade.detectMultiScale(gray_frame, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
