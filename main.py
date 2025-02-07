@@ -237,9 +237,9 @@ def button_action():
     if selected_mode == "Modus":
         clicked.config(text="Please select a mode first!", fg="red")
     elif selected_mode == "Static":
-        open_sub_gui("EmotionDetectionGUI.py", "Executing Static emotion recognition...")
+        open_sub_gui("emotion_detection_static.py", "Executing Static emotion recognition...")
     elif selected_mode == "Real-Time":
-        open_sub_gui("EmotionDetectionRealTime.py", "Executing Real-Time emotion recognition...")
+        open_sub_gui("emotion_detection_realtime.py", "Executing Real-Time emotion recognition...")
 
 def exit_to_main_gui():
     clear_csv_file()
