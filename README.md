@@ -7,7 +7,7 @@
 
 **Automated User State Detection Project**
 
-Welcome to the MCQuality project! This repository contains the code and implementation of a real-time emotion detection tool based on video data, developed as part of our software quality project.
+Welcome to the MC Quality project! This repository contains the code and implementation of a real-time emotion detection tool based on video data, developed as part of our software quality project.
 
 ---
 
@@ -19,8 +19,7 @@ Welcome to the MCQuality project! This repository contains the code and implemen
    - [Static Emotion Analysis](#static-emotion-analysis)
    - [Real-Time Emotion Detection](#real-time-emotion-detection)
 4. [Contributors](#contributors)
-5. [Contributing](#contributing)
-6. [License](#license)
+5. [License](#license)
 
 ---
 
@@ -38,9 +37,9 @@ The MCQuality project explores state-of-the-art tools and frameworks for user st
 - **Supported Emotions**: Detects the following emotions: neutral, happy, fear, surprise, angry, sad, and disgust
 
 The code provides three Python files:
-- **gui.py**: implements a graphical user interface (GUI) using `Tkinter`, allowing users to select between static and real-time emotion detection based on facial features, visualize the results as bar and line charts, and dynamically execute the scripts `EmotionDetectionGUI.py` and `EmotionDetectionRealTime.py`
-- **EmotionDetectionGUI.py**: 
-- **EmotionDetectionRealTime.py**: implements a real-time emotion detection system using video input
+- **main.py**: implements a graphical user interface (GUI) using `Tkinter`, allowing users to select between static and real-time emotion detection based on facial features, visualize the results as bar and line charts, and dynamically execute the scripts `emotion_detection_static.py` and `emotion_detection_realtim.py`
+- **emotion_detection_static.py**: 
+- **emotion_detection_realtime.py**: implements a real-time emotion detection system using video input
 
 ---
 
@@ -134,12 +133,6 @@ This project is part of a university group project created for the course Softwa
 - Carlotta May
 - Marlon Spiess
   
----
-
-## Contributing
-
-Contributions to this project are welcome! Please make sure to read and follow the guidelines outlined in the [CONTRIBUTING.md](CONTRIBUTING.md) file before making any changes or submitting pull requests.
-
 ---
 
 ## License
