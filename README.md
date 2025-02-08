@@ -36,10 +36,37 @@ The MCQuality project explores state-of-the-art tools and frameworks for user st
 - **Emotion Intensity over Time**: Line chart showing the intensity of emotions over time.
 - **Supported Emotions**: Detects the following emotions: neutral, happy, fear, surprise, angry, sad, and disgust
 
-The code provides three Python files:
-- **main.py**: implements a graphical user interface (GUI) using `Tkinter`, allowing users to select between static and real-time emotion detection based on facial features, visualize the results as bar and line charts, and dynamically execute the scripts `emotion_detection_static.py` and `emotion_detection_realtim.py`
-- **emotion_detection_static.py**: 
-- **emotion_detection_realtime.py**: implements a real-time emotion detection system using video input
+---
+
+## Project Structure
+
+The codebase consists of three main Python scripts:
+
+- **`src/main.py`**  
+  This script serves as the central graphical user interface (GUI) using `Tkinter`. It allows users to:
+  - Select between **static** and **real-time** emotion detection
+  - Execute the respective detection scripts dynamically
+  - Visualize emotion detection results using a **bar chart** and a **line chart**
+  - Manage the dataset by clearing and processing detected emotions.
+
+- **`src/detection/emotion_detection_static.py`**  
+  This script enables **static image-based** emotion detection using `DeepFace`. It:
+  - Allows users to upload an image for analysis
+  - Extracts emotions from the face in the image
+  - Displays the dominant emotion and a probability distribution as a bar chart
+
+- **`src/detection/emotion_detection_realtime.py`**  
+  This script implements a **real-time** emotion detection system using video input from a webcam. It:
+  - Continuously detects faces and analyzes their emotions
+  - Displays the detected emotions in real-time over the video feed
+  - Saves the detected emotions to a CSV file for further visualization in the GUI
+
+### Data Storage
+- **`src/results/emotions_results.csv`**  
+  - This file stores the detected emotions from the **real-time analysis**
+  - It logs timestamps, dominant emotions, and probabilities for each detected emotion
+  - The data is used to generate the **bar chart** and the **line chart** for visualization in the GUI
+  - When real-time detection starts, the file is **reset** to store only the latest session data
 
 ---
 
@@ -79,7 +106,7 @@ To use the application, start by running the main `gui.py` script. This script l
    - Navigate to the project directory where `gui.py` is located.
    - Run the following command:
      ```bash
-     python gui.py
+     python main.py
      ```
    - This will launch the GUI, where you can select either **Static Emotion Analysis** or **Real-Time Emotion Detection**.
 
@@ -101,7 +128,7 @@ The **Static Emotion Analysis** feature allows users to upload an image of a fac
 
 ### Real-Time Emotion Detection
 
-The `EmotionDetectionRealTime.py` script implements a real-time emotion detection system using video input captured through the webcam. The detected emotions are dynamically displayed on the GUI and saved for further analysis.
+The `emotion_detection_realtime.py` script implements a real-time emotion detection system using video input captured through the webcam. The detected emotions are dynamically displayed on the GUI and saved for further analysis.
 
 #### How It Works
 1. **Real-Time Video Capture**: The webcam feed is processed frame by frame.
