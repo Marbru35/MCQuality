@@ -13,13 +13,14 @@ Welcome to the MC Quality project! This repository contains the code and impleme
 
 ## Table of Contents
 1. [Project Overview](#project-overview)
-2. [Getting Started](#getting-started)
-3. [Usage](#usage)
+2. [Project Structure](#project-structure)
+3. [Getting Started](#getting-started)
+4. [Usage](#usage)
    - [How to Run the Application](#how-to-run-the-application)
    - [Static Emotion Analysis](#static-emotion-analysis)
    - [Real-Time Emotion Detection](#real-time-emotion-detection)
-4. [Contributors](#contributors)
-5. [License](#license)
+5. [Contributors](#contributors)
+6. [License](#license)
 
 ---
 
@@ -29,7 +30,7 @@ The MCQuality project explores state-of-the-art tools and frameworks for user st
 **Prototype Implementation**: Demonstration of the feasibility and potential of the selected solution. <br>
 **Selected Tool**: The prototype leverages the [DeepFace python library](https://github.com/serengil/deepface), a lightweight face recognition and facial attribute analysis framework.
 
-## Key Features:
+### Key Features:
 - **Static Emotion Detection**: Allows to upload an image of a face and detect the emotions expressed in the image.
 - **Real-Time Emotion Detection**: A functional prototype that detects user emotions from video streams in real time.
 - **Distribution of Dominant Emotions**: Bar chart showing the percentage of dominant emotions detected.
