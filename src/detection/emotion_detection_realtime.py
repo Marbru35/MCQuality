@@ -1,5 +1,5 @@
 """
-Real-Time Emotion Detection with GUI
+Real-Time Emotion Detection GUI
 
 This script uses a webcam to detect faces in real-time, analyze emotions
 using the DeepFace library, and display results in a Tkinter GUI.
@@ -16,9 +16,9 @@ import time
 import os
 
 # Define directories for results
-current_dir = os.path.dirname(os.path.abspath(__file__))  # Current directory of the script
-results_dir = os.path.join(current_dir, "..", "results")  # Results directory (relative to the parent directory)
-csv_path = os.path.join(results_dir, "emotions_results.csv")  # Path to the results CSV file
+current_dir = os.path.dirname(os.path.abspath(__file__))
+results_dir = os.path.join(current_dir, "..", "results")
+csv_path = os.path.join(results_dir, "emotions_results.csv")
 
 
 class RealTimeDetection:
@@ -158,7 +158,7 @@ class RealTimeDetection:
         """
         self.root = Tk()
         self.root.title("Real-Time Emotion Detection")
-        self.root.state('zoomed')  # Maximize the window
+        self.root.state('zoomed')
         self.root.configure(bg="white")
 
         # Add a title label to the GUI
@@ -194,6 +194,5 @@ class RealTimeDetection:
 
 
 if __name__ == "__main__":
-    # Create an instance of RealTimeDetection and start the GUI
     detector = RealTimeDetection()
     detector.start_gui()
