@@ -10,9 +10,18 @@ import threading
 # Verzeichnis der Skripte
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
+# Detection Verzeichnis
+detection_dir = os.path.join(current_dir, "detection")
+
+# CSV Verzeichnis
+results_dir = os.path.join(current_dir, "results")
+csv_path = os.path.join(results_dir, "emotions_results.csv")
+
 # CSV-Datei leeren
 def clear_csv_file():
-    with open("emotions_results.csv", "w", newline="") as csvfile:
+    if not os.path.exists(results_dir):
+        os.makedirs(results_dir)  # Ergebnisse-Ordner erstellen, falls er nicht existiert
+    with open(csv_path, "w", newline="") as csvfile:
         csvfile.write("time,dominant_emotion,angry,disgust,fear,happy,sad,surprise,neutral\n")
 
 # Dynamisches Auffinden des Python-Interpreters in der virtuellen Umgebung
@@ -160,10 +169,11 @@ def create_time_based_line_chart(frame, emotions_data):
     canvas_line.get_tk_widget().pack(fill=BOTH, expand=True)
 
 # Funktion zur Darstellung der Diagramme
+# Funktion zur Darstellung der Diagramme
 def show_emotion_analysis():
     try:
-        # CSV-Datei laden
-        emotions_data = pd.read_csv("emotions_results.csv")
+        # Aktualisierter Pfad: CSV-Datei aus dem neuen "results"-Ordner laden
+        emotions_data = pd.read_csv(csv_path)
 
         # Häufigkeit der dominanten Emotionen in Prozent umrechnen
         emotion_counts = emotions_data['dominant_emotion'].value_counts(normalize=True) * 100
@@ -187,6 +197,7 @@ def show_emotion_analysis():
             resize_message_label.grid_forget()
 
     except FileNotFoundError:
+        # Fehlerbehandlung, falls die CSV-Datei nicht existiert
         error_label = Label(graphics_area, text="No data available. Please run the detection first.", fg="red", font=("Helvetica", 12))
         error_label.pack(fill=BOTH, expand=True)
 
@@ -216,7 +227,8 @@ def open_sub_gui(script_name, executing_text):
 
             def hide_main_gui():
                 frame.withdraw()
-                process = subprocess.Popen([python_path, script_name], cwd=current_dir)
+                script_path = os.path.join(detection_dir, script_name)
+                process = subprocess.Popen([python_path, script_path], cwd=current_dir)
                 process.wait()
                 frame.deiconify()
                 clicked.config(text="Start the emotion recognition", fg="firebrick")

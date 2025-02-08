@@ -1,4 +1,3 @@
 env/
 __pycache__/
 .codegpt
-emotions_results.csv

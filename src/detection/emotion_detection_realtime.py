@@ -5,6 +5,12 @@ from PIL import Image, ImageTk
 from deepface import DeepFace
 import csv
 import time
+import os
+
+# Ergebnisse-Ordner und CSV-Dateipfad
+current_dir = os.path.dirname(os.path.abspath(__file__))
+results_dir = os.path.join(current_dir, "..", "results")  # Ordner `results` im Hauptverzeichnis
+csv_path = os.path.join(results_dir, "emotions_results.csv")
 
 class RealTimeDetection:
     def __init__(self):
@@ -80,21 +86,24 @@ class RealTimeDetection:
             print("No emotions data collected.")
             return
 
+        # Ordner erstellen, falls er nicht existiert
+        if not os.path.exists(results_dir):
+            os.makedirs(results_dir)
+
         # Kopfzeile für die CSV-Datei (enthält alle Emotionen + Zeit + dominante Emotion)
         fieldnames = ["time", "dominant_emotion", "angry", "disgust", "fear", "happy", "sad", "surprise", "neutral"]
 
-        with open("emotions_results.csv", "w", newline="") as csvfile:
+        with open(csv_path, "w", newline="") as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(self.emotions_data)
 
-        print(f"Saved {len(self.emotions_data)} emotion records.")
+        print(f"Saved {len(self.emotions_data)} emotion records to {csv_path}.")
 
     def stop_realtime_detection(self):
         self.running = False
 
     def exit_to_main_gui(self):
-        # Stoppt die Erkennung und speichert die Ergebnisse, bevor das Fenster geschlossen wird
         self.stop_realtime_detection()
         self.save_results_to_file()
         if self.root:
@@ -125,11 +134,9 @@ class RealTimeDetection:
         detection_thread.daemon = True
         detection_thread.start()
 
-        # Control Frame (contains only the Exit Button)
         control_frame = Frame(self.root, bg="lightgray", width=200)
         control_frame.pack(side=RIGHT, fill=Y)
 
-        # Exit-Button
         btn_exit = Button(control_frame, text="Exit", font=("Arial", 10), bg="red", fg="white", command=self.exit_to_main_gui)
         btn_exit.pack(pady=15, padx=20, fill=X)
 
