@@ -7,7 +7,7 @@
 
 **Automated User State Detection Project**
 
-Welcome to the MC Quality project! This repository contains the code and implementation of a real-time emotion detection tool based on video data, developed as part of our software quality project.
+Welcome to the MC Quality project! This repository contains the code and implementation of a real-time emotion detection tool based on video data, developed as part of our software quality project in corporation with the [DLR Institute of Software Technology](https://www.dlr.de/de/sc/).🚀
 
 ---
 
@@ -19,8 +19,9 @@ Welcome to the MC Quality project! This repository contains the code and impleme
    - [How to Run the Application](#how-to-run-the-application)
    - [Static Emotion Analysis](#static-emotion-analysis)
    - [Real-Time Emotion Detection](#real-time-emotion-detection)
-5. [Contributors](#contributors)
-6. [License](#license)
+5. [Contributing](#contributing)
+6. [Contributors](#contributors)
+7. [License](#license)
 
 ---
 
@@ -156,10 +157,17 @@ The **Real-Time Emotion Detection** feature uses video input from the webcam to 
    
 ---
 
+## Contributing
+If you'd like to contribute to the MC Quality project, there are various ways to get involved. Development happens here on [GitHub](https://github.com/Marbru35/MCQuality), where you can report bugs, suggest features, and submit pull requests. If you're unsure about something, don’t hesitate to open an issue with your question. All types of contributions are welcome and appreciated. If you have any other questions or suggestions, feel free to also contact us by email. We look forward to hearing from you!😊
+
+---
+
 ##  Contributors
 This project is part of a university group project created for the course Software Quality (SQ) by the following contributors: 
-- Carlotta May
-- Marlon Spiess
+- **Carlotta May**  
+  📧 [cmay4@smail.uni-koeln.de](mailto:cmay4@smail.uni-koeln.de)  
+- **Marlon Spiess**  
+  📧 [mspiess1@smail.uni-koeln.de](mailto:mspiess1@smail.uni-koeln.de)  
   
 ---
 
