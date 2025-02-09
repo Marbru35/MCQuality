@@ -1,3 +1,11 @@
+<!--
+SPDX-FileCopyrightText: 2025 Marbru35
+SPDX-FileContributor: Carlotta May
+SPDX-FileContributor: Marlon Spiess
+
+SPDX-License-Identifier: MIT
+-->
+
 # Contributing to MC Quality
 
 Thank you for your interest in contributing to the MC Quality project! We appreciate all types of contributions and aim to make it easy for you to get involved.
