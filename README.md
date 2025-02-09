@@ -25,7 +25,7 @@ Welcome to the MC Quality project! This repository contains the code and impleme
 ---
 
 ## Project Overview
-The MCQuality project explores state-of-the-art tools and frameworks for user state detection using video data, with a focus on real-time emotion recognition. After systematically reviewing existing technologies, we selected a promising tool to build a prototype that demonstrates its potential in the field of UX and satisfaction for a specific use-case.
+The MC Quality project explores state-of-the-art tools and frameworks for user state detection using video data, with a focus on real-time emotion recognition. After systematically reviewing existing technologies, we selected a promising tool to build a prototype that demonstrates its potential in the field of UX and satisfaction for a specific use-case.
 
 **Prototype Implementation**: Demonstration of the feasibility and potential of the selected solution. <br>
 **Selected Tool**: The prototype leverages the [DeepFace python library](https://github.com/serengil/deepface), a lightweight face recognition and facial attribute analysis framework.
@@ -51,16 +51,16 @@ The codebase consists of three main Python scripts:
   - Manage the dataset by clearing and processing detected emotions.
 
 - **`src/detection/emotion_detection_static.py`**  
-  This script enables **static image-based** emotion detection using `DeepFace`. It:
+  This script enables **static image-based** emotion detection. It:
   - Allows users to upload an image for analysis
-  - Extracts emotions from the face in the image
+  - Extracts emotions from the detected face in the image
   - Displays the dominant emotion and a probability distribution as a bar chart
 
 - **`src/detection/emotion_detection_realtime.py`**  
   This script implements a **real-time** emotion detection system using video input from a webcam. It:
   - Continuously detects faces and analyzes their emotions
   - Displays the detected emotions in real-time over the video feed
-  - Saves the detected emotions to a CSV file for further visualization in the GUI
+  - Saves the detected emotions temporarily to a CSV file for further visualization in the GUI
 
 ### Data Storage
 - **`src/results/emotions_results.csv`**  
@@ -99,12 +99,12 @@ To install the prototype, follow these steps:
 
 ## Usage
 
-To use the application, start by running the main `gui.py` script. This script launches a graphical user interface (GUI) that allows users to select between **Static Emotion Analysis** and **Real-Time Emotion Detection** modes.
+To use the application, start by running the `main.py` script. This script launches a graphical user interface (GUI) that allows users to select between **Static Emotion Analysis** and **Real-Time Emotion Detection** modes.
 
 ### How to Run the Application
 1. **Run the GUI**:
    - Open a terminal or command prompt.
-   - Navigate to the project directory where `gui.py` is located.
+   - Navigate to the project directory where `main.py` is located.
    - Run the following command:
      ```bash
      python main.py
@@ -129,7 +129,7 @@ The **Static Emotion Analysis** feature allows users to upload an image of a fac
 
 ### Real-Time Emotion Detection
 
-The `emotion_detection_realtime.py` script implements a real-time emotion detection system using video input captured through the webcam. The detected emotions are dynamically displayed on the GUI and saved for further analysis.
+The **Real-Time Emotion Detection** feature uses video input from the webcam to detect emotions in real-time. The dominant emotion is displayed on the GUI, and both the dominant emotion and the intensity of all detected emotions are saved for further analysis.
 
 #### How It Works
 1. **Real-Time Video Capture**: The webcam feed is processed frame by frame.
@@ -142,7 +142,7 @@ The `emotion_detection_realtime.py` script implements a real-time emotion detect
    - Displays the dominant emotion as a label on the video feed.
 5. **Data Logging**:
    - Captures emotion data along with timestamps.
-   - Saves results into a CSV file (`emotions_results.csv`) for graphical analyses with the following structure.
+   - Saves results into a CSV file (`src/results/emotions_results.csv`) for graphical analyses with the following structure.
      - **time**: Timestamp of the detected emotion
      - **dominant_emotion**: The most prominent emotion detected in the frame
      - **angry, disgust, fear, happy, sad, surprise, neutral**: Intensity level for each emotion
