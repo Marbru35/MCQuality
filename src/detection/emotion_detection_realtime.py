@@ -1,3 +1,9 @@
+# SPDX-FileCopyrightText: 2025 Marbru35
+# SPDX-FileContributor: Carlotta May
+# SPDX-FileContributor: Marlon Spiess
+#
+# SPDX-License-Identifier: MIT
+
 """
 Real-Time Emotion Detection GUI
 
