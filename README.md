@@ -1,4 +1,4 @@
-# MC Quality
+# MC Quality 🤖
 
 <div align="center">
   <img src="icons/mcquality.PNG" alt="MC Quality Logo" width="200">
