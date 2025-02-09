@@ -15,7 +15,7 @@ SPDX-License-Identifier: MIT
 
 **Automated User State Detection Project**
 
-Welcome to the MC Quality project! This repository contains the code and implementation of a real-time emotion detection tool based on video data, developed as part of our software quality project in corporation with the [DLR Institute of Software Technology](https://www.dlr.de/de/sc/).🚀
+Welcome to the MC Quality project! This repository contains the code and implementation of a real-time emotion detection tool based on video data, developed as part of our software quality project in corporation with the [DLR Institute of Software Technology](https://www.dlr.de/de/sc/). 🚀
 
 ---
 
@@ -27,9 +27,10 @@ Welcome to the MC Quality project! This repository contains the code and impleme
    - [How to Run the Application](#how-to-run-the-application)
    - [Static Emotion Analysis](#static-emotion-analysis)
    - [Real-Time Emotion Detection](#real-time-emotion-detection)
-5. [Contributing](#contributing)
-6. [Contributors](#contributors)
-7. [License](#license)
+5. [Documentation](#documentation)
+6. [Contributing](#contributing)
+7. [Contributors](#contributors)
+8. [License](#license)
 
 ---
 
@@ -165,8 +166,22 @@ The **Real-Time Emotion Detection** feature uses video input from the webcam to 
    
 ---
 
+## Documentation
+- Report: Detailed analysis and outcomes of the project. **(TBD)**
+- [Presentation](artifacts/05_McQuality_CarlottaMay_MarlonSpiess.pptx): Overview of the project in slide format.
+
+---
+
 ## Contributing
-If you'd like to contribute to the MC Quality project, there are various ways to get involved. Development happens here on [GitHub](https://github.com/Marbru35/MCQuality), where you can report bugs, suggest features, and submit pull requests. If you're unsure about something, don’t hesitate to open an issue with your question. All types of contributions are welcome and appreciated. If you have any other questions or suggestions, feel free to also contact us by email. We look forward to hearing from you!😊
+We warmly welcome contributions to the MC Quality project! Here are some ways to get involved:
+- Report bugs or suggest features by [opening an issue](https://github.com/Marbru35/MCQuality/issues).
+- Submit a pull request with your changes or improvements.
+- Follow the [REUSE Specification](https://reuse.software/) when contributing to ensure proper license compliance.
+
+For detailed guidelines, please check our [CONTRIBUTING.md](CONTRIBUTING.md).
+
+If you have any questions or need guidance, feel free to contact us.
+We look forward to hearing from you! 😊
 
 ---
 
