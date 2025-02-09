@@ -175,7 +175,7 @@ The **Real-Time Emotion Detection** feature uses video input from the webcam to 
 ## Contributing
 We warmly welcome contributions to the MC Quality project! Here are some ways to get involved:
 - Report bugs or suggest features by [opening an issue](https://github.com/Marbru35/MCQuality/issues).
-- Submit a pull request with your changes or improvements.
+- [Submit a pull request](https://github.com/Marbru35/MCQuality/pulls) with your changes or improvements.
 - Follow the [REUSE Specification](https://reuse.software/) when contributing to ensure proper license compliance.
 
 For detailed guidelines, please check our [CONTRIBUTING.md](CONTRIBUTING.md).
