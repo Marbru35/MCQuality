@@ -20,8 +20,10 @@ import subprocess
 import os
 import threading
 
+
 # Directory paths for detection scripts and results
 current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir)) 
 detection_dir = os.path.join(current_dir, "detection")
 results_dir = os.path.join(current_dir, "results")
 csv_path = os.path.join(results_dir, "emotions_results.csv")
@@ -41,9 +43,9 @@ def find_python_interpreter():
     Finds the appropriate Python interpreter in the virtual environment.
     If no virtual environment is detected, it falls back to the system's Python interpreter.
     """
-    possible_envs = [name for name in os.listdir(current_dir) if os.path.isdir(os.path.join(current_dir, name))]
+    possible_envs = [name for name in os.listdir(parent_dir) if os.path.isdir(os.path.join(parent_dir, name))]
     for env in possible_envs:
-        python_path = os.path.join(current_dir, env, "Scripts", "python.exe")
+        python_path = os.path.join(parent_dir, env, "Scripts", "python.exe")
         if os.path.exists(python_path):
             return python_path
     return "python"  # Default to global Python interpreter if none is found
