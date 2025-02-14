@@ -83,7 +83,8 @@ The codebase consists of three main Python scripts:
 
 ## Getting Started
 **Prerequisite: Make sure you have Python installed before proceeding. <br>
-⚠️ Some of the latest Python versions may cause issues with this prototype. <br> If you encounter problems, try using Python [3.11.3](https://www.python.org/downloads/release/python-3113/) or [3.11.9](https://www.python.org/downloads/release/python-3119/), as these versions are confirmed to work.**
+During Python installation, make sure to check the box for `"td/tk and IDLE"` to ensure that Tkinter is installed. Tkinter is required for the graphical components of this prototype. <br>
+⚠️ Some of the Python versions may cause issues with this prototype. <br> If you encounter problems, try using Python [3.11.3](https://www.python.org/downloads/release/python-3113/) (recommended) or [3.11.9](https://www.python.org/downloads/release/python-3119/), as these versions are confirmed to work.**
 
 To install the prototype, follow these steps:
 
