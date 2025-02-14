@@ -82,6 +82,9 @@ The codebase consists of three main Python scripts:
 ---
 
 ## Getting Started
+**Prerequisite: Make sure you have Python installed before proceeding. <br>
+⚠️ Some of the latest Python versions may cause issues with this prototype. <br> If you encounter problems, try using Python [3.11.3](https://www.python.org/downloads/release/python-3113/) or [3.11.9](https://www.python.org/downloads/release/python-3119/), as these versions are confirmed to work.**
+
 To install the prototype, follow these steps:
 
 1. Clone this repository:
@@ -92,18 +95,19 @@ To install the prototype, follow these steps:
 2. Setup a virtual environment
 - On Windows:
   ```bash
-  python -m venv venv
-  venv\Scripts\activate
+  python -m venv env
+  env\Scripts\activate
   ```
 - On macOS/Linux:
   ```bash
-  python3 -m venv venv
-  source venv/bin/activate
+  python3 -m venv env
+  source env/bin/activate
   ```
 3. Install required dependencies:
    ```bash
    pip install -r requirements.txt
    ```
+This step takes some time! Once everything has finished downloading, you can follow the steps in [Usage](#usage) to start the prototype.
 
 ---
 
@@ -114,12 +118,18 @@ To use the application, start by running the `main.py` script. This script launc
 ### How to Run the Application
 1. **Run the GUI**:
    - Open a terminal or command prompt.
-   - Navigate to the project directory where `main.py` is located.
+   - Navigate to the project directory `src/` where `main.py` is located.
    - Run the following command:
      ```bash
      python main.py
      ```
+    - Otherwise you can directly start the `main.py` from the root directory by:
+     ```bash
+     python src/main.py
+     ```
    - This will launch the GUI, where you can select either **Static Emotion Analysis** or **Real-Time Emotion Detection**.
+  
+📝**Note**: After selecting a mode, the main GUI will close, and a new window will open. This process may take some time, especially on the first run!
 
 ### Static Emotion Analysis
 
