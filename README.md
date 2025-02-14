@@ -124,9 +124,9 @@ To use the application, start by running the `main.py` script. This script launc
      python main.py
      ```
     - Otherwise you can directly start the `main.py` from the root directory by:
-     ```bash
-     python src/main.py
-     ```
+      ```bash
+      python src/main.py
+      ```
    - This will launch the GUI, where you can select either **Static Emotion Analysis** or **Real-Time Emotion Detection**.
   
 📝**Note**: After selecting a mode, the main GUI will close, and a new window will open. This process may take some time, especially on the first run!
