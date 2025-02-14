@@ -177,7 +177,7 @@ The **Real-Time Emotion Detection** feature uses video input from the webcam to 
 ---
 
 ## Documentation
-- Report: Detailed analysis and outcomes of the project. **(TBD)**
+- [Report](artifacts/Automated_User_State_Detection_Report.pdf): Detailed analysis and outcomes of the project.
 - [Presentation](artifacts/05_McQuality_CarlottaMay_MarlonSpiess.pptx): Overview of the project in slide format.
 
 ---
